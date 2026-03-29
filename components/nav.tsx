@@ -67,7 +67,7 @@ const Nav: React.FC<NavProps> = (props) => {
       >
         <li className="flex justify-between">
           <Link href="/">
-            <p className="text-3xl font-serif font-title-theme flex text-center justify-between no-underline w transform hover:-translate-y-1 duration-300  ">
+            <p className="type-card-title font-title-theme flex text-center justify-between no-underline w transform hover:-translate-y-1 duration-300">
               "👨‍💻 👨‍🚀 👨‍🎓"
             </p>
           </Link>
@@ -94,11 +94,11 @@ const Nav: React.FC<NavProps> = (props) => {
             <li key={link.label}>
               <a
                 href={`${link.weblink}`}
-                className="inline-block text-sm py-2 pr-2 hover:shadow-inner transform pl-1 leading-snug rounded-md text-gray-900  transition duration-300 ease-in-out  hover:bg-gray-300 mt-4 md:mt-0"
+                className="inline-block type-meta py-2 pr-2 hover:shadow-inner transform pl-1 rounded-md text-gray-900 transition duration-300 ease-in-out hover:bg-gray-300 mt-4 md:mt-0"
               >
                 <div className="flex">
                   {link.href1}
-                  <p className="text-base"> {link.label}</p>
+                  <p className="type-meta"> {link.label}</p>
                 </div>
               </a>
             </li>
