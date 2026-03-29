@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import React from 'react';
 import matter from 'gray-matter';
@@ -60,15 +60,86 @@ interface HomeProps {
 
 
 const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero }) => {
+  const hideProjects = process.env.NEXT_PUBLIC_HIDE_PROJECT_SECTION === 'true';
+  const mainRef = useRef<HTMLDivElement | null>(null);
 
   const mediaLink = socialMediaLink();
   const navbarLink = useNavbarLink();
-  const menuLink = useMenuLink();
+  const menuLink = useMenuLink(hideProjects);
 
   const [isToggled, setToggled] = useState<boolean>(false);
 
   
   const toggleTrueFalse = () => setToggled(!isToggled);
+
+  const scrollToSection = useCallback((hash: string, updateHash: boolean = true) => {
+    if (typeof window === 'undefined' || !hash.startsWith('#')) {
+      return;
+    }
+
+    const targetId = hash.slice(1);
+
+    if (!targetId) {
+      return;
+    }
+
+    const targetSection = document.getElementById(targetId);
+
+    if (!targetSection || !mainRef.current?.contains(targetSection)) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    targetSection.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+
+    if (updateHash && window.location.hash !== hash) {
+      window.history.replaceState(null, '', hash);
+    }
+  }, []);
+
+  const handleSectionLinkClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    hash: string,
+    closeMenu: boolean = false
+  ) => {
+    if (!hash.startsWith('#')) {
+      if (closeMenu) {
+        toggleTrueFalse();
+      }
+      return;
+    }
+
+    event.preventDefault();
+    scrollToSection(hash);
+
+    if (closeMenu) {
+      toggleTrueFalse();
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const initialHash = window.location.hash;
+
+    if (!initialHash) {
+      return;
+    }
+
+    if (hideProjects && initialHash === '#project') {
+      window.history.replaceState(null, '', '#experience');
+      scrollToSection('#experience', false);
+      return;
+    }
+
+    scrollToSection(initialHash, false);
+  }, [hideProjects, scrollToSection]);
   
   return (
     <div>
@@ -85,7 +156,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
 
         {/*NAV BAR*/}
         
-        <div className="flex-1 md:flex md:overflow-y-hidden h-screen ">
+        <div className="flex flex-1 overflow-y-hidden min-h-0">
 
           {/*SIDE BAR  */}
           <div
@@ -103,7 +174,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
               className={`sidebar-top text-3xl md:text-base space-y-5 md:space-y-0 object-center py-10 md:py-0 `}
             >
               <p
-                className="self-center text-4xl font-serif flex justify-between no-underline text-center transform hover:-translate-y-1 duration-300  md:hidden
+                className="self-center text-4xl font-serif font-title-theme flex justify-between no-underline text-center transform hover:-translate-y-1 duration-300  md:hidden
                   "
               >
                 "👨‍💻 👨‍🚀 👨‍🎓"
@@ -113,9 +184,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                 <a
                   key={menu.info}
                   href={menu.link}
-                  onClick={() => {
-                    toggleTrueFalse();
-                  }}
+                  onClick={(event) => handleSectionLinkClick(event, menu.link, true)}
                   className="icon-work flex py-2  hover:shadow-inner transition duration-300 ease-in-out hover:bg-gray-300 rounded-md p-2  "
                 >
                   <p className="md:text-xl mr-1">{menu.icon}</p>
@@ -149,13 +218,13 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
           </div>
           
         
-          <div className="main w-full lg:px-5 overflow-y-auto  bg-gray-100 ">
+          <div ref={mainRef} className="main w-full flex-1 min-h-0 lg:px-5 overflow-y-auto bg-gray-100">
 
 
              {/* HERO */}
-             <div className="container mx-auto px-6 md:px-12 flex flex-col-reverse sm:flex-row items-center  mb-5  min-h-full ">
-               <div className="sm:w-4/5 flex flex-col items-start sm:mt-0">
-                 <h1 className="text-4xl lg:text-6xl leading-none mb-4">
+             <div id="home" className="home-viewport container mx-auto px-6 md:px-12 flex flex-col-reverse sm:flex-row items-center justify-center scroll-mt-6 md:scroll-mt-10">
+               <div className="w-full sm:w-4/5 flex flex-col items-start sm:mt-0">
+                 <h1 className="font-title-theme text-4xl lg:text-6xl leading-none mb-4">
                    {hero && (
                      <strong className="font-black">
                        {hero.strong}
@@ -174,6 +243,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                  <a
                    className="font-semibold text-lg bg-blue-500 hover:bg-blue-400 transition duration-300 ease-in-out  text-white py-3 px-10 rounded-full hover:shadow-inner transform"
                    href="#experience"
+                   onClick={(event) => handleSectionLinkClick(event, '#experience')}
                  >
                    {hero.cta}
                  </a>
@@ -181,8 +251,8 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
              </div>
 
              {/*  EXPERIENCE */}
-             <div id="experience">
-               <h1 className=" border-b  border-blue-600 mb-5 md:mb-0 text-4xl sticky px-5 md:px-0">
+             <div id="experience" className="scroll-mt-6 md:scroll-mt-10">
+               <h1 className="font-title-theme border-b  border-blue-600 mb-5 md:mb-0 text-4xl sticky px-5 md:px-0">
                  Experience 🧳
                </h1>
 
@@ -242,21 +312,20 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                </div>
              </div>
 
-             {/* PROJECT  */}
-             <div id="project">
-               <h1 className=" border-b  border-blue-600 mb-5 text-4xl sticky px-5 md:px-0 ">
-                 Projects 📂
-               </h1>
+             {!hideProjects && (
+               <>
+                 {/* PROJECT  */}
+                 <div id="project" className="scroll-mt-6 md:scroll-mt-10">
+                   <h1 className="font-title-theme border-b  border-blue-600 mb-5 text-4xl sticky px-5 md:px-0 ">
+                     Projects 📂
+                   </h1>
 
-               <div className="project-cards-list flex w-full justify-between flex-wrap py-10 px-10 md:px-4">
-                 {projects.map((project, idx) =>  (
-
-                
-      
-                   <a
-                     href={project.url_link}
-                     key={project.id}
-                     className={`
+                   <div className="project-cards-list flex w-full justify-between flex-wrap py-10 px-10 md:px-4">
+                     {projects.map((project, idx) => (
+                       <a
+                         href={project.url_link}
+                         key={project.id}
+                         className={`
                      card 
                      flex
                      flex-col
@@ -267,64 +336,64 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      shadow-lg overflow-hidden rounded-md 
                      transform hover:scale-105 duration-300 hover:shadow-xl
                      `}
-                   >
-                  
-                     
-                     <div>
-                       <img
-                         className="w-full h-48 object-cover border-b"
-                         src={`${
-                           project.emg_photo_url
-                             ? project.emg_photo_url
-                             : ""
-                         }`}
-                       />
-                       <div className="px-5 py-2 ">
-                         <div className="flex flex-col justify-between w-full min-h-full">
-                           {project && (
-                             <h1 className="text-2xl">
-                               {project.title}
-                             </h1>
-                           )}
-
-                           {project && (
-                             <ul className="space-y-4 text-sm pt-4 list-disc px-5">
-                               {project.each_explanation.map(
-                                 (expla, idx) => (
-                                   <li>
-                                     {expla}
-                                   </li>
-                                 )
+                       >
+                         <div>
+                           <img
+                             className="w-full h-48 object-cover border-b"
+                             src={`${
+                               project.emg_photo_url
+                                 ? project.emg_photo_url
+                                 : ""
+                             }`}
+                           />
+                           <div className="px-5 py-2 ">
+                             <div className="flex flex-col justify-between w-full min-h-full">
+                               {project && (
+                                 <h1 className="font-title-theme text-2xl">
+                                   {project.title}
+                                 </h1>
                                )}
-                             </ul>
-                           )}
-                         </div>
-                       </div>
-                     </div>
 
-                     <div className="align-start pt-4 items-end px-5 pb-5">
-                       {project.tags_project &&
-                         project.tags_project.map((tag, idx) => {
-                           if (tag != null) {
-                             return (
-                               <span
-                                 key={idx}
-                                 className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
-                               >
-                                 {tag}
-                               </span>
-                             );
-                           }
-                         })}
-                     </div>
-                   </a>
-                 ))}
-               </div>
-             </div>
+                               {project && (
+                                 <ul className="space-y-4 text-sm pt-4 list-disc px-5">
+                                   {project.each_explanation.map(
+                                     (expla, idx) => (
+                                       <li>
+                                         {expla}
+                                       </li>
+                                     )
+                                   )}
+                                 </ul>
+                               )}
+                             </div>
+                           </div>
+                         </div>
+
+                         <div className="align-start pt-4 items-end px-5 pb-5">
+                           {project.tags_project &&
+                             project.tags_project.map((tag, idx) => {
+                               if (tag != null) {
+                                 return (
+                                   <span
+                                     key={idx}
+                                     className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+                                   >
+                                     {tag}
+                                   </span>
+                                 );
+                               }
+                             })}
+                         </div>
+                       </a>
+                     ))}
+                   </div>
+                 </div>
+               </>
+             )}
 
             {/* STACK */}
-            <div id="stack">
-               <h1 className=" border-b  border-blue-600 mb-5 text-4xl sticky px-5 md:px-0 ">
+            <div id="stack" className="scroll-mt-6 md:scroll-mt-10">
+               <h1 className="font-title-theme border-b  border-blue-600 mb-5 text-4xl sticky px-5 md:px-0 ">
                  Stack 🛠
                </h1>
                <div className="px-5 md:px-0">
@@ -332,7 +401,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                  <div className="flex flex-col md:flex-row md:space-x-5 pt-4 py-20 space-y-3 md:space-y-0">
                    {stacks.map((stack, idx) => (
                      <div key={idx} className="md:w-1/3">
-                       <h5 className="text-xl pb-2">{stack.title}</h5>
+                       <h5 className="font-title-theme text-xl pb-2">{stack.title}</h5>
                        <div className="pl-4 ">
                          <ul className=" flex flex-wrap ">
                            {stack.perlevel_stack &&
@@ -355,26 +424,26 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
 
 
             {/* ABOUT */}
-             <div className="min-h-full" id="about">
-               <h1 className=" border-b  border-blue-600 mb-5 text-4xl sticky font-bold  px-5 md:px-0">
+             <div className="min-h-full scroll-mt-6 md:scroll-mt-10" id="about">
+               <h1 className="font-title-theme border-b  border-blue-600 mb-5 text-4xl sticky font-bold  px-5 md:px-0">
                  About 👨‍🚀
                </h1>
 
                <div className="flex flex-col lg:flex-row px-5 md:px-0">
                  <div className=" lg:w-1/2 border-gray-500 pr-5">
-                   <h5 className="text-lg text-gray-600 font-thin -mb-1">
+                   <h5 className="font-title-theme text-lg text-gray-600 font-thin -mb-1">
                      {" "}
                      Nice to meet you{" "}
                    </h5>
                    {about && (
-                     <h1 className="text-4xl font-bold tracking-wide pt-2">
+                     <h1 className="font-title-theme text-4xl font-bold tracking-wide pt-2">
                        {" "}
                        {about.h1_title}
                      </h1>
                    )}
 
                    {about && (
-                     <h2 className="text-2xl font-normal tracking-wide pt-2  ">
+                     <h2 className="font-title-theme text-2xl font-normal tracking-wide pt-2  ">
                        {about.h2_subtitle}
                      </h2>
                    )}
@@ -404,7 +473,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      </div>
 
                      <div>
-                       <h3 className="page-h3">Stay up-to-date</h3>
+                       <h3 className="page-h3 font-title-theme">Stay up-to-date</h3>
                        <p className=" text-sm mt-2">
                          <strong>Hint:</strong>{" "}
                          <span className=" opacity-50">
