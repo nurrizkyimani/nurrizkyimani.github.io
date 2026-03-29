@@ -14,6 +14,7 @@ import CloseButton from "../components/closebutton";
 
 
 interface Experience {
+  id: number;
   title: string; 
   company: string; 
   date: string;
@@ -294,8 +295,8 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      <div className="border-r-2 border-gray-800 border-dotted absolute h-full z-0 pl-2 mt-2" />
                      <ul className="list-none m-0 p-0">
                        {experiences &&
-                         experiences.map((exp, index) => (
-                           <li key={index} className="mb-4">
+                         experiences.map((exp) => (
+                           <li key={exp.id} className="mb-4">
                              <div className="flex mb-1 align-top content-start">
                                <div className="flex">
                                  <img
@@ -553,6 +554,7 @@ export const getStaticProps: GetStaticProps = async () => {
   rawWorkEntries.forEach(rawEntry => {
     const parsedEntry = matter(rawEntry);
     experiences.push({
+      id: Number(parsedEntry.data.id) || 0,
       title: parsedEntry.data.title || '',
       company: parsedEntry.data.company || '',
       date: parsedEntry.data.date || '',
@@ -560,6 +562,8 @@ export const getStaticProps: GetStaticProps = async () => {
       highlights: parsedEntry.data.highlights || [],
     });
   });
+
+  experiences.sort((a, b) => b.id - a.id);
 
   //project 
   const fileProjectPath = path.join(process.cwd(), 'pages/markdown', 'project.md');

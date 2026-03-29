@@ -182,7 +182,7 @@ const socialMediaLink = (): SocialMediaLink[] => {
           </svg>
         ),
         label: "Email",
-        link: `mailto:nurrizkyimani@mail.ugm.ac.id`,
+        link: `mailto:nurrizkyimani@gmail.com`,
       },
     ]);
   }, []);
