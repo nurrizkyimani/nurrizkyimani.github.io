@@ -18,6 +18,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_HIDE_PROJECT_SECTION: ${{ vars.NEXT_PUBLIC_HIDE_PROJECT_SECTION }}
+      NEXT_PUBLIC_USE_V2_FONT: ${{ vars.NEXT_PUBLIC_USE_V2_FONT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
