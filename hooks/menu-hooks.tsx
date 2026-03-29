@@ -12,6 +12,11 @@ const useMenuLink = (hideProjects: boolean): MenuLink[] => {
       info: `Home`
     },
     {
+      link: '/blog',
+      icon: `📝`,
+      info: `Blog`
+    },
+    {
       link: `#experience`,
       icon: `🧳`,
       info: `Experiences`
@@ -29,7 +34,7 @@ const useMenuLink = (hideProjects: boolean): MenuLink[] => {
   ];
 
   if (!hideProjects) {
-    links.splice(1, 0, {
+    links.splice(2, 0, {
       link: '#project',
       icon: `📂`,
       info: `Projects`

@@ -91,6 +91,79 @@ html {
   min-height: calc(100dvh - 4rem);
 }
 
+.blog-content {
+  font-size: clamp(1rem, 2.2vw, 1.28rem);
+  line-height: 1.8;
+  color: #42454b;
+}
+
+.blog-content > * + * {
+  margin-top: 1rem;
+}
+
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+  font-family: var(--font-title);
+  color: var(--color-title);
+  line-height: 1.3;
+  margin-top: 2rem;
+}
+
+.blog-content h2 {
+  font-size: clamp(1.65rem, 3vw, 2.2rem);
+}
+
+.blog-content h3 {
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+}
+
+.blog-content a {
+  color: #2a6db2;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.blog-content ul,
+.blog-content ol {
+  padding-left: 1.5rem;
+}
+
+.blog-content ul {
+  list-style: disc;
+}
+
+.blog-content ol {
+  list-style: decimal;
+}
+
+.blog-content blockquote {
+  border-left: 3px solid #c0c5cc;
+  padding-left: 0.9rem;
+  color: #6a7077;
+  font-style: italic;
+}
+
+.blog-content code {
+  background: #eceff3;
+  padding: 0.12rem 0.35rem;
+  border-radius: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95em;
+}
+
+.blog-content pre {
+  background: #eceff3;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.blog-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
 @media (min-width: 768px) {
   .section-gap {
     padding-top: 2.5rem;

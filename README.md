@@ -13,6 +13,7 @@ The page content is statically generated from markdown files in `pages/markdown`
 - [Available Scripts](#available-scripts)
 - [Project Structure](#project-structure)
 - [Content Management](#content-management)
+- [Blog Authoring](#blog-authoring)
 - [Build and Deployment](#build-and-deployment)
 - [Live URLs](#live-urls)
 - [Troubleshooting](#troubleshooting)
@@ -100,12 +101,15 @@ For Vercel:
 
 ```text
 .
-├── components/            # Reusable UI components (navigation, close button)
+├── components/            # Reusable UI components (navigation, close button, blog nav)
 ├── hooks/                 # Link/menu data hooks
+├── lib/                   # Shared data utilities (including blog markdown parser)
 ├── pages/
 │   ├── index.tsx          # Main portfolio page
+│   ├── blog/              # Blog pages (/blog, /blog/[post], /blog/tags)
 │   ├── api/hello.ts       # Example API route
 │   └── markdown/          # Content source files (frontmatter-driven)
+│       └── blog/          # One markdown file per blog post
 ├── public/                # Static assets (images, favicon)
 ├── styles/                # Global styles
 ├── next.config.js         # Next.js config (strict mode, trailing slash)
@@ -130,6 +134,46 @@ When editing content:
 - Keep frontmatter keys consistent with existing schema
 - Keep list field types intact (for example `highlights`, `tags_project`, `perlevel_stack`)
 - Ensure image file names referenced in markdown exist in `public/`
+
+## Blog Authoring
+
+Blog posts are stored as one file per post in `pages/markdown/blog/`.
+
+Filename standard in this repository:
+
+- `y<yy>m<m>w<w>d<d>-<title-kebab>.md`
+- Example: `y26m3w2d4-dokumentasi-musik-rekindled.md`
+
+Frontmatter contract:
+
+```md
+---
+title: Reflection on 2025
+date: 2025-12-31
+tags:
+  - reflection
+  - culture
+excerpt: Short summary shown on /blog list.
+cover_image: /blog/reflection-2025.jpg
+cover_image_alt: Foggy house in the hills
+---
+
+Full markdown content here...
+```
+
+Rules:
+
+- `title`, `date`, `tags`, and `excerpt` are required
+- `date` must use `YYYY-MM-DD`
+- Tags are case-insensitive for routes and normalized to kebab-case URLs
+- Post order on `/blog` is newest-first by `date` (not by filename)
+- Optional `cover_image` can be local (`/blog/<file>`) or external URL
+
+Image guidance:
+
+- Put local blog images in `public/blog/`
+- Reference them in markdown frontmatter as `/blog/<filename>`
+- Example: `cover_image: /blog/reflection-2025.jpg`
 
 ## Build and Deployment
 
@@ -164,12 +208,11 @@ Notes:
 
 Primary production URL:
 
-
-- https://nurrizkyimani.vercel.com
+- https://nurrizkyimani.netlify.app
 
 Mirror deployments:
 
-- https://nurrizkyimani.netlify.app
+- https://nurrizkyimani.vercel.com
 - https://nurrizkyimani.github.io
 
 ## Troubleshooting
