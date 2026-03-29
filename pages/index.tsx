@@ -44,6 +44,7 @@ interface About {
 
 interface Hero {
   strong: string;
+  photo_url: string;
   p1: string; 
   p2: string; 
   cta: string; 
@@ -57,6 +58,7 @@ interface HomeProps {
   hero: Hero;
 }
 
+const HERO_PROFILE_FALLBACK = 'https://avatars3.githubusercontent.com/u/25843889?s=460&u=0665df9620e6db3156619b8414fdd6b047f32286&v=4';
 
 
 const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero }) => {
@@ -68,6 +70,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
   const menuLink = useMenuLink(hideProjects);
 
   const [isToggled, setToggled] = useState<boolean>(false);
+  const heroPhotoUrl = hero?.photo_url || HERO_PROFILE_FALLBACK;
 
   
   const toggleTrueFalse = () => setToggled(!isToggled);
@@ -157,17 +160,24 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
         {/*NAV BAR*/}
         
         <div className="flex flex-1 overflow-y-hidden min-h-0">
+          <div
+            className={`fixed inset-0 z-20 bg-black/20 transition-opacity duration-300 ease-out md:hidden motion-reduce:transition-none ${
+              isToggled ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            }`}
+            onClick={toggleTrueFalse}
+          />
 
           {/*SIDE BAR  */}
           <div
             className={`
-            sidebar md:w-48 mb-5 md:mb-0 flex-none md:flex 
+            sidebar md:w-48 mb-5 md:mb-0 flex md:flex 
             flex-col divide-y px-4 pl-5  md:mt-5 
-            min-h-screen md:min-h-0 fixed z-20
+            min-h-screen md:min-h-0 fixed z-30
             md:static md:z-0 md:bg-gray-0 bg-gray-100
             w-screen top-0
-            ease-linear
-            ${isToggled ? "" : "hidden"}`}
+            transition-all duration-300 ease-out motion-reduce:transition-none
+            md:translate-x-0 md:opacity-100 md:visible
+            ${isToggled ? "translate-x-0 opacity-100 visible" : "-translate-x-8 opacity-0 invisible pointer-events-none md:pointer-events-auto"}`}
           >
 
             <div
@@ -196,7 +206,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                   <li key={link.id}>
                     <a
                       href=""
-                      className="inline-block type-meta px-2 py-2 hover:shadow-inner transform pl-1 rounded-md text-gray-900
+                      className="inline-block type-meta px-2 py-2 hover:shadow-inner transform pl-1 rounded-md
                       transition duration-300 ease-in-out  hover:bg-gray-300  lg:mt-0"
                     >
                       <div className="flex">
@@ -225,20 +235,43 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                <div className="w-full sm:w-4/5 flex flex-col items-start sm:mt-0">
                  <h1 className="font-title-theme type-display mb-4">
                    {hero && (
-                     <strong className="font-extrabold">
+                     <strong className="font-bold">
                        {hero.strong}
                      </strong>
                    )}
                  </h1>
-                 {hero && (
-                   <p className="type-body reading-width mb-2">{hero.p1}</p>
-                 )}
+                 <div className="mb-6 md:mb-10 w-full flex flex-col sm:flex-row sm:items-start gap-4 md:gap-5">
+                   {hero && (
+                     <p className="type-body reading-width sm:hidden">{hero.p1}</p>
+                   )}
+                   <div className="sm:hidden">
+                     <img
+                       className="w-36 h-36 rounded-full object-cover"
+                       src={heroPhotoUrl}
+                       alt={`${hero?.strong || 'Nurrizky Imani'} profile photo`}
+                     />
+                   </div>
 
-                 {hero && (
-                   <p className="type-body reading-width mb-6 md:mb-12">
-                     {hero.p2}
-                   </p>
-                 )}
+                   <div className="hidden sm:block flex-shrink-0">
+                     <img
+                       className="w-24 h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full object-cover"
+                       src={heroPhotoUrl}
+                       alt={`${hero?.strong || 'Nurrizky Imani'} profile photo`}
+                     />
+                   </div>
+
+                   <div className="flex-1 reading-width pt-0">
+                     {hero && (
+                       <p className="type-body hidden sm:block mt-0 mb-0 leading-[1.45]">{hero.p1}</p>
+                     )}
+
+                     {hero && (
+                       <p className="type-body mt-2">
+                         {hero.p2}
+                       </p>
+                     )}
+                   </div>
+                 </div>
                  <a
                    className="font-semibold type-body bg-blue-500 hover:bg-blue-400 transition duration-300 ease-in-out text-white py-3 px-10 rounded-full hover:shadow-inner transform"
                    href="#experience"
@@ -375,7 +408,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                                  return (
                                    <span
                                      key={idx}
-                                     className="inline-block bg-gray-200 rounded-full px-3 py-1 type-meta font-semibold text-gray-700 mr-2 mb-2"
+                                     className="inline-block bg-gray-200 rounded-full px-3 py-1 type-meta font-semibold mr-2 mb-2"
                                    >
                                      {tag}
                                    </span>
@@ -430,7 +463,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
 
                <div className="flex flex-col lg:flex-row px-5 md:px-0">
                  <div className=" lg:w-1/2 border-gray-500 pr-5">
-                   <p className="font-title-theme type-meta text-gray-600 -mb-1">
+                   <p className="font-title-theme type-meta -mb-1">
                      {" "}
                      Nice to meet you{" "}
                    </p>
@@ -464,7 +497,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      <div className="relative  w-3/12 md:w-9/12 transform hover:scale-110 duration-300 ">
                        <img
                          className="rounded-full hover:shadow-xl transform ease-in-out duration-300 "
-                         src="https://avatars3.githubusercontent.com/u/25843889?s=460&u=0665df9620e6db3156619b8414fdd6b047f32286&v=4"
+                         src={HERO_PROFILE_FALLBACK}
                          alt="Sunset in the mountains"
                        />
 
@@ -583,6 +616,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const hero: Hero =  {
         strong: parsedHeroEntry.data.strong || '',
+        photo_url: parsedHeroEntry.data.photo_url || '',
         p1: parsedHeroEntry.data.p1 || '',
         p2: parsedHeroEntry.data.p2 || '',
         cta: parsedHeroEntry.data.cta || '',

@@ -5,29 +5,40 @@
 :root {
   --font-body: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-title: inherit;
+  --color-title: #161616;
+  --color-body: #2f2f2f;
+  --color-meta: #6b6b6b;
 }
 
 .font-theme-default {
   --font-body: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-title: inherit;
+  --color-title: #161616;
+  --color-body: #2f2f2f;
+  --color-meta: #6b6b6b;
 }
 
 .font-theme-v2 {
   --font-body: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-title: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --color-title: #161616;
+  --color-body: #2f2f2f;
+  --color-meta: #6b6b6b;
 }
 
 .font-body-theme {
   font-family: var(--font-body);
+  color: var(--color-body);
 }
 
 .font-title-theme {
   font-family: var(--font-title);
+  color: var(--color-title);
 }
 
 .type-display {
-  font-size: clamp(2.5rem, 7vw, 4.25rem);
-  line-height: 1.1;
+  font-size: clamp(2.1rem, 5.4vw, 3.9rem);
+  line-height: 1.12;
   letter-spacing: -0.02em;
 }
 
@@ -45,11 +56,13 @@
 .type-body {
   font-size: clamp(1rem, 2.2vw, 1.125rem);
   line-height: 1.7;
+  color: var(--color-body);
 }
 
 .type-meta {
   font-size: clamp(0.875rem, 1.8vw, 1rem);
   line-height: 1.5;
+  color: var(--color-meta);
 }
 
 .reading-width {
