@@ -1,24 +1,20 @@
-import { useState, useEffect } from 'react';
-
 interface MenuLink {
   link: string;
   icon: string;
   info: string;
 }
 
-const useMenuLink = (): MenuLink[] => {
-  const [menus, setMenus] = useState<MenuLink[]>([]);
-
+const useMenuLink = (hideProjects: boolean): MenuLink[] => {
   const links: MenuLink[] = [
     {
-      link: `#experience`,
-      icon: `🏠`,
-      info: `Experiences`
+      link: `#home`,
+      icon: `🏡`,
+      info: `Home`
     },
     {
-      link: '#project',
-      icon: `📂`,
-      info: `Projects`
+      link: `#experience`,
+      icon: `🧳`,
+      info: `Experiences`
     },
     {
       link: '#stack',
@@ -32,11 +28,15 @@ const useMenuLink = (): MenuLink[] => {
     },
   ];
 
-  useEffect(() => {
-    setMenus(links);
-  }, []);
+  if (!hideProjects) {
+    links.splice(1, 0, {
+      link: '#project',
+      icon: `📂`,
+      info: `Projects`
+    });
+  }
 
-  return menus;
+  return links;
 }
 
 export default useMenuLink;

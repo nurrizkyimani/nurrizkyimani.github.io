@@ -67,7 +67,7 @@ const Nav: React.FC<NavProps> = (props) => {
       >
         <li className="flex justify-between">
           <Link href="/">
-            <p className="text-3xl font-serif flex text-center justify-between no-underline w transform hover:-translate-y-1 duration-300  ">
+            <p className="text-3xl font-serif font-title-theme flex text-center justify-between no-underline w transform hover:-translate-y-1 duration-300  ">
               "👨‍💻 👨‍🚀 👨‍🎓"
             </p>
           </Link>
