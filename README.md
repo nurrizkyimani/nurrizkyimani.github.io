@@ -14,6 +14,7 @@ The page content is statically generated from markdown files in `pages/markdown`
 - [Project Structure](#project-structure)
 - [Content Management](#content-management)
 - [Build and Deployment](#build-and-deployment)
+- [Live URLs](#live-urls)
 - [Troubleshooting](#troubleshooting)
 
 ## Tech Stack
@@ -158,6 +159,18 @@ Notes:
 - This uses the `gh-pages` package to publish `out/`
 - `homepage` in `package.json` should match your GitHub Pages URL
 - `trailingSlash: true` in `next.config.js` is already set for static hosting compatibility
+
+## Live URLs
+
+Primary production URL:
+
+
+- https://nurrizkyimani.vercel.com
+
+Mirror deployments:
+
+- https://nurrizkyimani.netlify.app
+- https://nurrizkyimani.github.io
 
 ## Troubleshooting
 
