@@ -171,11 +171,10 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
           >
 
             <div
-              className={`sidebar-top text-3xl md:text-base space-y-5 md:space-y-0 object-center py-10 md:py-0 `}
+              className={`sidebar-top space-y-5 md:space-y-0 object-center py-10 md:py-0`}
             >
               <p
-                className="self-center text-4xl font-serif font-title-theme flex justify-between no-underline text-center transform hover:-translate-y-1 duration-300  md:hidden
-                  "
+                className="self-center type-card-title font-title-theme flex justify-between no-underline text-center transform hover:-translate-y-1 duration-300 md:hidden"
               >
                 "👨‍💻 👨‍🚀 👨‍🎓"
               </p>
@@ -187,8 +186,8 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                   onClick={(event) => handleSectionLinkClick(event, menu.link, true)}
                   className="icon-work flex py-2  hover:shadow-inner transition duration-300 ease-in-out hover:bg-gray-300 rounded-md p-2  "
                 >
-                  <p className="md:text-xl mr-1">{menu.icon}</p>
-                  <div className="ml-3 "> {menu.info}</div>
+                  <p className="mr-1">{menu.icon}</p>
+                  <div className="ml-3 type-body"> {menu.info}</div>
                 </a>
               ))}
 
@@ -197,12 +196,12 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                   <li key={link.id}>
                     <a
                       href=""
-                      className="inline-block text-sm px-2 py-2 hover:shadow-inner transform pl-1 leading-snug rounded-md text-gray-900  
+                      className="inline-block type-meta px-2 py-2 hover:shadow-inner transform pl-1 rounded-md text-gray-900
                       transition duration-300 ease-in-out  hover:bg-gray-300  lg:mt-0"
                     >
                       <div className="flex">
                         {link.href1}
-                        <p className="text-base"> {link.label}</p>
+                        <p className="type-meta"> {link.label}</p>
                       </div>
                     </a>
                   </li>
@@ -224,24 +223,24 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
              {/* HERO */}
              <div id="home" className="home-viewport container mx-auto px-6 md:px-12 flex flex-col-reverse sm:flex-row items-center justify-center scroll-mt-6 md:scroll-mt-10">
                <div className="w-full sm:w-4/5 flex flex-col items-start sm:mt-0">
-                 <h1 className="font-title-theme text-4xl lg:text-6xl leading-none mb-4">
+                 <h1 className="font-title-theme type-display mb-4">
                    {hero && (
-                     <strong className="font-black">
+                     <strong className="font-extrabold">
                        {hero.strong}
                      </strong>
                    )}
                  </h1>
                  {hero && (
-                   <p className="text-lg mb-2">{hero.p1}</p>
+                   <p className="type-body reading-width mb-2">{hero.p1}</p>
                  )}
 
                  {hero && (
-                   <p className="text-lg mb-5 md:mb-12">
+                   <p className="type-body reading-width mb-6 md:mb-12">
                      {hero.p2}
                    </p>
                  )}
                  <a
-                   className="font-semibold text-lg bg-blue-500 hover:bg-blue-400 transition duration-300 ease-in-out  text-white py-3 px-10 rounded-full hover:shadow-inner transform"
+                   className="font-semibold type-body bg-blue-500 hover:bg-blue-400 transition duration-300 ease-in-out text-white py-3 px-10 rounded-full hover:shadow-inner transform"
                    href="#experience"
                    onClick={(event) => handleSectionLinkClick(event, '#experience')}
                  >
@@ -251,10 +250,10 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
              </div>
 
              {/*  EXPERIENCE */}
-             <div id="experience" className="scroll-mt-6 md:scroll-mt-10">
-               <h1 className="font-title-theme border-b  border-blue-600 mb-5 md:mb-0 text-4xl sticky px-5 md:px-0">
+             <div id="experience" className="scroll-mt-6 md:scroll-mt-10 section-gap">
+               <h2 className="font-title-theme type-section-title border-b border-blue-600 mb-5 md:mb-0 px-5 md:px-0">
                  Experience 🧳
-               </h1>
+               </h2>
 
                <div className="work-exp md:px-8 md:py-1">
                  <div>
@@ -277,11 +276,11 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
 
                                  <div className="flex flex-col">
                                    
-                                   <div className="ml-4 font-medium">
+                                   <h3 className="ml-4 font-title-theme type-card-title">
                                      {exp.title}
-                                   </div>
+                                   </h3>
                                    
-                                   <p className=" ml-4 text-sm ">
+                                   <p className="ml-4 type-meta">
                                      {exp.company}
                                    </p>
                                    
@@ -290,14 +289,14 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                                </div>
 
                                <div className="flex z-auto flex-col flex-1 items-end relative md:pr-5 text-right">
-                                 <p className="text-sm">
+                                 <p className="type-meta">
                                    {exp.date}
                                  </p>
                                </div>
                              </div>
                              <div className="ml-12 ">
 
-                               <ul className="list-disc list-inside text-left mb-4">
+                               <ul className="list-disc list-inside text-left mb-4 type-body">
                                  {exp.highlights.map((highlight, idx) => (
                                    <li key={idx}>{highlight}</li>
                                  ))}
@@ -315,13 +314,13 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
              {!hideProjects && (
                <>
                  {/* PROJECT  */}
-                 <div id="project" className="scroll-mt-6 md:scroll-mt-10">
-                   <h1 className="font-title-theme border-b  border-blue-600 mb-5 text-4xl sticky px-5 md:px-0 ">
+                 <div id="project" className="scroll-mt-6 md:scroll-mt-10 section-gap">
+                   <h2 className="font-title-theme type-section-title border-b border-blue-600 mb-5 px-5 md:px-0">
                      Projects 📂
-                   </h1>
+                   </h2>
 
                    <div className="project-cards-list flex w-full justify-between flex-wrap py-10 px-10 md:px-4">
-                     {projects.map((project, idx) => (
+                     {projects.map((project) => (
                        <a
                          href={project.url_link}
                          key={project.id}
@@ -349,16 +348,16 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                            <div className="px-5 py-2 ">
                              <div className="flex flex-col justify-between w-full min-h-full">
                                {project && (
-                                 <h1 className="font-title-theme text-2xl">
+                                 <h3 className="font-title-theme type-card-title">
                                    {project.title}
-                                 </h1>
+                                 </h3>
                                )}
 
                                {project && (
-                                 <ul className="space-y-4 text-sm pt-4 list-disc px-5">
+                                 <ul className="space-y-3 type-body pt-4 list-disc px-5 reading-width">
                                    {project.each_explanation.map(
                                      (expla, idx) => (
-                                       <li>
+                                       <li key={idx}>
                                          {expla}
                                        </li>
                                      )
@@ -376,7 +375,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                                  return (
                                    <span
                                      key={idx}
-                                     className="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+                                     className="inline-block bg-gray-200 rounded-full px-3 py-1 type-meta font-semibold text-gray-700 mr-2 mb-2"
                                    >
                                      {tag}
                                    </span>
@@ -392,23 +391,23 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
              )}
 
             {/* STACK */}
-            <div id="stack" className="scroll-mt-6 md:scroll-mt-10">
-               <h1 className="font-title-theme border-b  border-blue-600 mb-5 text-4xl sticky px-5 md:px-0 ">
+            <div id="stack" className="scroll-mt-6 md:scroll-mt-10 section-gap">
+               <h2 className="font-title-theme type-section-title border-b border-blue-600 mb-5 px-5 md:px-0">
                  Stack 🛠
-               </h1>
+               </h2>
                <div className="px-5 md:px-0">
 
-                 <div className="flex flex-col md:flex-row md:space-x-5 pt-4 py-20 space-y-3 md:space-y-0">
+                 <div className="flex flex-col md:flex-row md:space-x-5 pt-4 py-10 stack-gap">
                    {stacks.map((stack, idx) => (
                      <div key={idx} className="md:w-1/3">
-                       <h5 className="font-title-theme text-xl pb-2">{stack.title}</h5>
+                       <h3 className="font-title-theme type-card-title pb-2">{stack.title}</h3>
                        <div className="pl-4 ">
                          <ul className=" flex flex-wrap ">
                            {stack.perlevel_stack &&
                              stack.perlevel_stack.map((each, id) => {
                                if (each != null) {
                                  return (
-                                   <li key={id} className="w-1/2 mb-3">
+                                   <li key={id} className="w-1/2 mb-3 type-body">
                                      {each}
                                    </li>
                                  );
@@ -424,35 +423,35 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
 
 
             {/* ABOUT */}
-             <div className="min-h-full scroll-mt-6 md:scroll-mt-10" id="about">
-               <h1 className="font-title-theme border-b  border-blue-600 mb-5 text-4xl sticky font-bold  px-5 md:px-0">
+             <div className="min-h-full scroll-mt-6 md:scroll-mt-10 section-gap" id="about">
+               <h2 className="font-title-theme type-section-title border-b border-blue-600 mb-5 px-5 md:px-0">
                  About 👨‍🚀
-               </h1>
+               </h2>
 
                <div className="flex flex-col lg:flex-row px-5 md:px-0">
                  <div className=" lg:w-1/2 border-gray-500 pr-5">
-                   <h5 className="font-title-theme text-lg text-gray-600 font-thin -mb-1">
+                   <p className="font-title-theme type-meta text-gray-600 -mb-1">
                      {" "}
                      Nice to meet you{" "}
-                   </h5>
+                   </p>
                    {about && (
-                     <h1 className="font-title-theme text-4xl font-bold tracking-wide pt-2">
+                     <h3 className="font-title-theme type-section-title font-bold tracking-wide pt-2">
                        {" "}
                        {about.h1_title}
-                     </h1>
+                     </h3>
                    )}
 
                    {about && (
-                     <h2 className="font-title-theme text-2xl font-normal tracking-wide pt-2  ">
+                     <h4 className="font-title-theme type-card-title font-normal tracking-wide pt-2">
                        {about.h2_subtitle}
-                     </h2>
+                     </h4>
                    )}
                    <div>
                      {about &&
                        about.p_tag.map((p_tag, idx) => (
                          <p
                            key={idx}
-                           className="text-lg font-light tracking-normal pt-8 text-left"
+                           className="type-body reading-width pt-8 text-left"
                          >
                            {p_tag}
                          </p>
@@ -473,8 +472,8 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      </div>
 
                      <div>
-                       <h3 className="page-h3 font-title-theme">Stay up-to-date</h3>
-                       <p className=" text-sm mt-2">
+                       <h3 className="font-title-theme type-card-title">Stay up-to-date</h3>
+                       <p className="type-meta mt-2">
                          <strong>Hint:</strong>{" "}
                          <span className=" opacity-50">
                            Active on Instagram and Twitter.
@@ -483,15 +482,15 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                        <ul className="social-link space-y-2 mt-6 ">
                          {mediaLink.map((each) => (
                            <li key={each.label} className="social-link  ">
-                             <a
-                               className="flex text-sm py-2 pr-2 hover:shadow-inner transition duration-300 ease-in-out hover:bg-gray-300 rounded-md p-2 -ml-2"
-                               href={each.link}
-                             >
+                               <a
+                                 className="flex type-meta py-2 pr-2 hover:shadow-inner transition duration-300 ease-in-out hover:bg-gray-300 rounded-md p-2 -ml-2"
+                                 href={each.link}
+                               >
 
                                <div className="mr-2">{each.svg}</div>
                 
-
-                               <p>{each.label}</p>
+                            
+                               <p className="type-meta">{each.label}</p>
                              </a>
                            </li>
                          ))}
