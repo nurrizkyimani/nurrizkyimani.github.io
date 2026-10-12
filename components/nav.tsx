@@ -61,7 +61,7 @@ const links: LinkItem[] = [
 
 const Nav: React.FC<NavProps> = (props) => {
   return (
-    <nav className="md:mb-5 md:mb-0 ">
+    <nav className="sticky top-0 z-10 w-full shrink-0 bg-gray-100 md:mb-0 ">
       <ul
         className={`md:flex flex-col md:flex-row justify-between items-center px-5 py-2`}
       >
